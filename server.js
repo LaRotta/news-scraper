@@ -27,6 +27,7 @@ db.on("error", function(error) {
   console.log("Database Error:", error);
 });
 
+
 // Scrape data from one site and place it into the mongodb db
 app.get("/scrape", function(req, res) {
 // Make a request for the news section of `nytimes`
@@ -61,6 +62,23 @@ request ("https://www.nytimes.com/section/politics", function (err, res, html){
 });
 res.send("Scrape Complete");
 });
+
+
+// Retrieve scraped data from the db
+app.get("/all", function(req, res) {
+    // Find all results from the scrapedData collection in the db
+    db.headlines.find({}, function(error, found) {
+      // Throw any errors to the console
+      if (error) {
+        console.log(error);
+      }
+      // If there are no errors, send the data to the browser as json
+      else {
+        res.json(found);
+      }
+    });
+  });
+
 
 
 // Listen on port 3000
