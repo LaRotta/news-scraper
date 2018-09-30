@@ -29,7 +29,7 @@ db.on("error", function(error) {
 
 
 // Scrape data from one site and place it into the mongodb db
-app.get("/scrape", function(req, res) {
+app.post("/scrape", function(req, res) {
 // Make a request for the news section of `nytimes`
 request ("https://www.nytimes.com/section/politics", function (err, res, html){
     var $ = cheerio.load(html);
@@ -47,14 +47,14 @@ request ("https://www.nytimes.com/section/politics", function (err, res, html){
             title: title,
             link: link            
         },
-        function(err, inserted) {
+        function(err, inserted, found) {
             if (err) {
             // Log the error if one is encountered during the query
             console.log(err);
         }
             else {
             // Otherwise, log the inserted data
-            console.log("inserted");
+            res.json(found);
 }
         });
         }
