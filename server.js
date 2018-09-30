@@ -45,30 +45,32 @@ request ("https://www.nytimes.com/section/politics", function (err, res, html){
         // Insert the data in the headlines db
         db.headlines.insert({
             title: title,
-            link: link
+            link: link            
         },
         function(err, inserted) {
-          if (err) {
+            if (err) {
             // Log the error if one is encountered during the query
             console.log(err);
-          }
-          else {
+        }
+            else {
             // Otherwise, log the inserted data
             console.log("inserted");
-          }
+}
         });
-      }
+        }
     });
 });
+
+  // Send a "Scrape Complete" message to the browser
 res.send("Scrape Complete");
 });
 
 
-// Retrieve scraped data from the db
+// Retrieve scraped data from the headlines db
 app.get("/all", function(req, res) {
     // Find all results from the scrapedData collection in the db
     db.headlines.find({}, function(error, found) {
-      // Throw any errors to the console
+    // Throw any errors to the console
       if (error) {
         console.log(error);
       }
@@ -78,7 +80,6 @@ app.get("/all", function(req, res) {
       }
     });
   });
-
 
 
 // Listen on port 3000
